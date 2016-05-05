@@ -7,32 +7,33 @@
     <link rel="stylesheet" href="assets/styles/style.css">
 </head>
 
-<body ng-controller="MainController">
+<body ng-controller="MainController as mc">
     <!--Form for grid size start-->
-    <form ng-submit="makegrid(g)">
-        <input ng-model="g" type="text" placeholder="enter number of cells across">
+    <form ng-submit="mc.makegrid(g)">
+        <input ng-model="g" type="number" placeholder="number of cells across">
         <button>make grid</button>
     </form>
     <!--Grid size end-->
-
     <!--Form for grid cell selection start-->
-    <form ng-submit="selectCell(x,y)">
+    <!--<form ng-submit="selectCell(x,y)">
         <input type="number" placeholder="enter column">
         <input type="number" placeholder="enter row">
         <button>Select Cell</button>
-    </form>
+    </form>-->
     <!--grid cell selection end-->
-
+<div>{{mc.grid}}</div>
     <!--display grid-->
     <!--container cell must be changed for size to account for wrap-->
-    <div class="gridLimit col-sm-6 col-sm-offset-3">
+    <!--<div class="gridLimit col-sm-6 col-sm-offset-3">-->
         <!--end of container for wrap-->
-        <div class="cell" ng-repeat="cell in grid" ngclass>
-          
-                Column:{{cell.colum}} Row:{{cell.row}}
+        <div class="row" ng-repeat="row in mc.grid" ngclass>
+          <div class="col" ng-repeat="cell in row">
+              <div class="cell" ng-class="{'lit': cell.lit}" ng-click="mc.activate(cell)"></div>
+                <!--Column:{{cell.colum}} Row:{{cell.row}}-->
+          </div>
            
             </div>
-    </div>
+    <!--</div>-->
     <!--end display grid-->
 
 
@@ -48,7 +49,7 @@
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
 
     <!--load app-->
-    <script src="app/init.js"></script>
+    <!--<script src="app/init.js"></script>-->
     <script src="app/controller/maincontroller.js"></script>
 
 </body>

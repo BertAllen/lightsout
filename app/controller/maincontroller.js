@@ -1,43 +1,38 @@
-app.controller('MainController', function ($scope) {
-    $scope.test = "angular works";
-    $scope.grid = [];
+angular.module('LightsOut', []).controller('MainController', function () {
+    var mc = this;
+    // $scope.test = "angular works";
+    mc.grid = [];
 
 
 
-    $scope.makegrid = function (g) {
-        for (var i = 0; i < g; i++) {
-            var colum = i
-            for (var j = 0; j < g; j++) {
-                var row = j
-                $scope.grid.push({ colum, row })
+    mc.makegrid = function (g) {
+        for (var x = 0; x < g; x++) {
+            mc.grid[x] = [];
+            // var colum = i
+            for (var y = 0; y < g; y++) {
+                // var row = j
+                mc.grid[x][y] = { row: x, col: y, lit: false, neighbors: [] };
 
             }
         }
+        for (var a = 0; a < g; a++) {
+            for (var b = 0; b < g; b++){
+                for (var c = -1; c < 2; c += 2){
+                    if (a + c >= 0 && a + c < g) {
+                        mc.grid[a][b].neighbors.push(mc.grid[a+c][b])
+                    }
+                    if (b + c >= 0 && b + c < g) {
+                        mc.grid[a][b].neighbors.push(mc.grid[a][b+c])
+                    }
+                }
+            }
+        }
     }
+    mc.activate = function (cell) {
+        cell.lit = !cell.lit;
+        cell.neighbors.forEach(function (nab) {
+            nab.lit = !nab.lit;
+        })
+}
     
-    $scope.findNeighbor = function (cell,g) {
-        // isNorth
-        if(cell.col > 0){
-            cell.neighbors.push($scope.grid[cell.col-1][cell.row])
-        }
-        // isSouth
-        if(cell.colum<g){
-          cell.neighbors.push($scope.grid[cell.col+1][cell.row])  
-        }
-        // isEast
-        if(cell.row <0){
-          cell.neighbors.push($scope.grid[cell.col][cell.row-1])  
-        }
-        // isWest
-        if(cell.row <g){
-          cell.neighbors.push($scope.grid[cell.col][cell.row+1])  
-        }
-    }
-    // for(var row in $scope.grid){
-    //     var currentRow = $scope.grid[row];
-    //     for(var i=0; i<currentRow.length; i++){
-    //         var currentCell = currentRow.length;
-    //         $scope.findNeighbor(cell,currentRow.length)
-    //     }
-    // }
 });
